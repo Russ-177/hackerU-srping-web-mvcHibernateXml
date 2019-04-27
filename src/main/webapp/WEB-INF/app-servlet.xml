@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Говорим, какие пакеты сканирвать на наличие аннотаций @Component, @Repository,
+          @Service, @Controller -->
+    <context:component-scan base-package="controller, repository, services"/>
+    
+    <!-- Добавляем возможность использовать аннотации -->
+    <mvc:annotation-driven conversion-service="conversionService" />
+   
+    <!-- подключаем ViewResolver для передачи модели из контроллера во View -->
+    <bean id="viewResolver"
+      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    
+    <bean id="conversionService"
+        class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="utils.converters.StorageConverter" />
+            </set>
+        </property>
+    </bean>
+   
+    
+   
+    
+</beans>
